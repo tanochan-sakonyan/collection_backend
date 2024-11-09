@@ -11,6 +11,10 @@ def create_app():
     # Configuration
     app.config.from_object(Config)
 
+    # モデルをインポートしてマッピングを登録
+    from app.users import models as user_models
+    from app.events import models as event_models
+
     # Register Blueprints
     from .users import users_bp
     app.register_blueprint(users_bp)
