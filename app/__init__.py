@@ -14,6 +14,7 @@ def create_app():
     # モデルをインポートしてマッピングを登録
     from app.users import models as user_models
     from app.events import models as event_models
+    from app.members import models as member_models
 
     # Register Blueprints
     from .users import users_bp
