@@ -12,6 +12,8 @@ class Member(db.Model):
     member_name = db.Column(db.String(64), index=True, nullable=False)
     line_user_id = db.Column(db.String(64), index=True, nullable=True, default=None)
     status = db.Column(db.Enum(Status), default=Status.UNPAID, nullable=False)
+    # 外部キーを追加
+    event_id = db.Column(db.Integer, db.ForeignKey('events.event_id'), nullable=False)
     event = db.relationship('Event', back_populates='members')
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
