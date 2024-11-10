@@ -10,7 +10,7 @@ class Member(db.Model):
     __tablename__ = 'members'
     member_id = db.Column(db.Integer, primary_key=True)
     member_name = db.Column(db.String(64), index=True, nullable=False)
-    line_user_id = db.Column(db.String(64), index=True, nulaable=True, default=None)
+    line_user_id = db.Column(db.String(64), index=True, nullable=True, default=None)
     status = db.Column(db.Enum(Status), default=Status.UNPAID, nullable=False)
     event = db.relationship('Event', back_populates='members')
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
