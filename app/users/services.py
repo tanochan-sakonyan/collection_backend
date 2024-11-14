@@ -1,9 +1,8 @@
 from .models import User
 from app import db
 
-def create_user_service(email: str, password: str) -> User:
-    user = User(email)
-    user.set_password(password)
+def create_user_service(line_token : str) -> User:
+    user = User(line_token)
     db.session.add(user)
     db.session.commit()
     return user
