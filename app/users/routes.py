@@ -9,16 +9,15 @@ def index():
 @users_bp.route('/users', methods=['POST'])
 def create_user():
     data = request.json
-    email    = data.get('email')
-    password = data.get('password')
+    line_token = data.get('line_token')
 
     if not data:
         return jsonify({'message': 'Data is required'}), 400
 
-    if not email or not password:
-        return jsonify({'message': 'Email and password are required'}), 400
+    if not line_token:
+        return jsonify({'message': 'line_token is required'}), 400
 
-    user = create_user_service(email, password)
+    user = create_user_service(line_token)
 
     return jsonify(user.to_dict()), 201
 
