@@ -41,7 +41,7 @@ def delete_user(user_id):
 @users_bp.route('/users/<int:user_id>/paypay-link', methods=['POST'])
 def register_paypay_url(user_id):
     data = request.json
-    paypay_url = data.get('paypay_url')
+    paypay_url = data.get('paypayLink')
 
     if not data:
         return jsonify({'isSuccessful': False}), 400
