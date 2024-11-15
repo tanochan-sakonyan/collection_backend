@@ -18,15 +18,17 @@ class Member(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
 
-    def __init__(self, member_name):
+    def __init__(self, member_name, event_id):
         self.member_name = member_name
+        self.event_id = event_id
 
     def to_dict(self):
         return {
+            'event_id': self.event_id,
             'member_id': self.member_id,
             'member_name': self.member_name,
             'line_user_id': self.line_user_id,
-            'status': self.status,
+            'status': self.status.value,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
