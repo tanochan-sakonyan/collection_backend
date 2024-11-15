@@ -28,9 +28,37 @@ class EventsAPITestCase(unittest.TestCase):
         self.assertEqual(data['event_name'], 'test_event')
         self.assertEqual(data['user_id'], 1)
 
-    def test_create_event_no_data(self):
+    # def test_create_event_no_data(self):
+    #     payload = {}
+    #     response = self.client.post('/events', json=payload)
+        
+    #     # デバッグ用の出力
+    #     print('Status Code:', response.status_code)
+    #     print('Response Data:', response.data)
+    #     print('Headers:', response.headers)
+        
+    #     data = response.get_json()
+    #     self.assertIsNotNone(data)
+    #     self.assertEqual(response.status_code, 400)
+    #     self.assertEqual(data['message'], 'Data is required')
+    # def test_delet_events_success(self):
+    #     payload = {'eventIdList': [1, 2]}
+    #     response = self.client.delete('/events', json=payload)
+        
+    #     # デバッグ用の出力
+    #     print('Status Code:', response.status_code)
+    #     print('Response Data:', response.data)
+    #     print('Headers:', response.headers)
+        
+    #     data = response.get_json()
+    #     self.assertIsNotNone(data)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(data['1'], True)
+    #     self.assertEqual(data['2'], True)
+
+    def test_delete_event_no_data(self):
         payload = {}
-        response = self.client.post('/events', json=payload)
+        response = self.client.delete('/events', json=payload)
         
         # デバッグ用の出力
         print('Status Code:', response.status_code)

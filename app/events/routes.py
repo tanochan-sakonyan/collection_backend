@@ -1,61 +1,45 @@
 from flask import jsonify, request
 from . import events_bp
 from .services import create_event_service, get_event_service, delete_event_service, rename_event_service
+from collections import defaultdict
 
 @events_bp.route('/', methods=['GET'])
 def index():
     return jsonify({'message': 'Hello, World!'})
 
-@events_bp.route('/events', methods=['POST'])
+@events_bp.route('/events', methods=['POST', "DELETE"])
 def create_event():
-    data = request.json
+    if request.method == 'POST':
+        data = request.get_json()
 
-    if not data:
-        return jsonify({'message': 'Data is required'}), 400
+        if not data:
+            return jsonify({'message': 'Data is required'}), 400
     
-    event_name = data.get('eventName')
-    user_id = data.get('userId')
+        event_name = data.get('eventName')
+        user_id = data.get('userId')
 
-    if not event_name or not user_id:
-        return jsonify({'message': 'Event name and user ID are required'}), 400
-    
-    event = create_event_service(event_name, user_id)
+        if not event_name or not user_id:
+            return jsonify({'message': 'Event name and user ID are required'}), 400
+        
+        event = create_event_service(event_name, user_id)
 
-    return jsonify(event.to_dict()), 201
+        return jsonify(event.to_dict()), 201
 
-@events_bp.route('/users/<int:user_id>/events/<int:event_id>', methods=['GET'])
-def get_event(user_id, event_id):
-    event = get_event_service(event_id)
-    if event:
-        return jsonify(event.to_dict()), 200
-    else:
-        return jsonify({'message': 'Event not found'}), 404
+    if request.method == 'DELETE':
+        data = request.get_json()
 
-@events_bp.route('/users/<int:user_id>/events/<int:event_id>', methods=['DELETE'])
-def delete_event(user_id, event_id):
-    Is_deleted = delete_event_service(event_id)
-    if Is_deleted:
-        return jsonify({'message': 'Event deleted'}), 200
-    else:
-        return jsonify({'message': 'Event not found'}), 404
-    
-@events_bp.route('/users/<int:user_id>/events/<int:event_id>', methods=['PUT'])
-def rename_event(user_id, event_id):
-    data = request.json
+        if not data:
+            return jsonify({'message': 'Data is required'}), 400
 
-    if not data:
-        return jsonify({'message': 'Data is required'}), 400
-    
-    event_name = data.get('event_name')
+        event_id_list = data.get('eventIdList')
+        if not event_id_list:
+            return jsonify({'message': 'Event ID is required'}), 400
 
-    if not event_name:
-        return jsonify({'message': 'Event name is required'}), 400
-    
-    event = rename_event_service(event_id, event_name)
+        each_event_is_deleted = defaultdict(bool)
 
-    return jsonify(event.to_dict()), 200
-    
+        for event_id in event_id_list:
+            is_deleted = delete_event_service(event_id)#TODO:現状各eventに対して削除→DB反映を繰り返してるので、一括削除処理を実装する
+            each_event_is_deleted[event_id] = is_deleted   
 
-    
+        return jsonify(each_event_is_deleted), 200
 
-    
