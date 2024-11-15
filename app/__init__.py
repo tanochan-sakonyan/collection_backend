@@ -21,6 +21,8 @@ def create_app():
     app.register_blueprint(users_bp)
     from .events import events_bp
     app.register_blueprint(events_bp)
+    from .members import members_bp
+    app.register_blueprint(members_bp)
 
     db.init_app(app)  # db をアプリに登録
 

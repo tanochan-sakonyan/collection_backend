@@ -24,3 +24,4 @@ def rename_event_service(event_id: int, event_name: str) -> Event:
     event.event_name = event_name
     db.session.commit()
     return event
+
