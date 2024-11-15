@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from . import users_bp
-from .services import create_user_service, get_user_service, delete_user_service
+from .services import create_user_service, get_user_service, delete_user_service, register_paypay_url_service
 
 @users_bp.route('/', methods=['GET'])
 def index():
@@ -37,3 +37,21 @@ def delete_user(user_id):
         return jsonify({'message': 'User deleted'}), 200
     else:
         return jsonify({'message': 'User not found'}), 404
+    
+@users_bp.route('/users/<int:user_id>/paypay-link', methods=['POST'])
+def register_paypay_url(user_id):
+    data = request.json
+    paypay_url = data.get('paypay_url')
+
+    if not data:
+        return jsonify({'isSuccessful': False}), 400
+
+    if not paypay_url:
+        return jsonify({'isSuccessful': False}), 400
+
+    user = register_paypay_url_service(user_id, paypay_url)
+
+    if user:
+        return jsonify(dict(**{'isSuccessful':True},**user.to_dict())), 200
+    else:
+        return jsonify({'isSuccessful': False}), 404

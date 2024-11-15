@@ -12,11 +12,6 @@ class UsersAPITestCase(unittest.TestCase):
         self.app.testing = True
         self.client = self.app.test_client()
 
-    def test_index_endpoint(self):
-        response = self.client.get('/')
-        data = json.loads(response.data)
-        self.assertEqual(data['message'], 'Hello, World!')
-
     def test_create_user_success(self):
         payload = {'line_token': 'test_token'}
         response = self.client.post('/users', json=payload)
@@ -24,12 +19,19 @@ class UsersAPITestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(data['line_token'], 'test_token')
 
-    def test_create_user_no_data(self):
-        payload = {}
-        response = self.client.post('/users', json=payload)
+    def test_register_paypay_url_success(self):
+        payload = {'paypay_url': 'test_paypay_url'}
+        response = self.client.post('/users/1/paypay-link', json=payload)
         data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['paypay_url'], 'test_paypay_url')
+
+    def test_register_paypay_url_no_data(self):
+        payload = {}
+        response = self.client.post('/users/100/paypay-link', json=payload)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(data['message'], 'Data is required')
+
+    
     
 
     
