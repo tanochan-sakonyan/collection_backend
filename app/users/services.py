@@ -17,3 +17,11 @@ def delete_user_service(user_id: int) -> None:
     db.session.delete(user)
     db.session.commit()
     return True
+
+def register_paypay_url_service(user_id: int, paypay_url: str) -> User:
+    user = User.query.get(user_id)
+    if not user:
+        return None
+    user.paypay_url = paypay_url
+    db.session.commit()
+    return user
