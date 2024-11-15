@@ -18,3 +18,9 @@ def delete_member_service(member_id: int) -> None:
     db.session.delete(member)
     db.session.commit()
     return True
+
+def edit_member_name_service(member_id: int, member_name: str) -> Member:
+    member = Member.query.get(member_id)
+    member.member_name = member_name
+    db.session.commit()
+    return member
