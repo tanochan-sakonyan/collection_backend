@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from . import members_bp
 
-from .services import create_member_service, get_member_service, delete_member_service, edit_member_name_service
+from .services import create_member_service, get_member_service, delete_member_service, edit_member_name_service, change_member_status_service
 
 @members_bp.route('/events/<int:event_id>/members', methods=['POST'])
 def create_member(event_id):
@@ -43,6 +43,24 @@ def edit_member_name(member_id):
         return jsonify({'isSuccessful': False}), 400
     
     member = edit_member_name_service(member_id, member_name)
+
+    return jsonify(dict(**{'isSuccessful':True}, **member.to_dict())), 200
+
+@members_bp.route('/members/<int:member_id>/status', methods=['PUT'])
+def change_member_status(member_id):
+    data = request.json
+    if not data:
+        return jsonify({'isSuccessful': False}), 400
+    
+    status = data.get('status')
+
+    if not status:
+        return jsonify({'isSuccessful': False}), 400
+    
+    member = change_member_status_service(member_id, status)
+
+    if not member:
+        return jsonify({'isSuccessful': False}), 400
 
     return jsonify(dict(**{'isSuccessful':True}, **member.to_dict())), 200
     
