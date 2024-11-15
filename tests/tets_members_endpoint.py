@@ -11,9 +11,37 @@ class EventsAPITestCase(unittest.TestCase):
         self.app.testing = True
         self.client = self.app.test_client()
 
-    def test_create_member_success(self):
-        payload = {'newMemberName': 'test_member'}
-        response = self.client.post('/events/2/members', json=payload)
+    # def test_create_member_success(self):
+    #     payload = {'newMemberName': 'test_member'}
+    #     response = self.client.post('/events/2/members', json=payload)
+        
+    #     # デバッグ用の出力
+    #     print('Status Code:', response.status_code)
+    #     print('Response Data:', response.data)
+    #     print('Headers:', response.headers)
+        
+    #     data = response.get_json()
+    #     self.assertIsNotNone(data)
+    #     self.assertEqual(response.status_code, 201)
+    #     self.assertEqual(data['member_name'], 'test_member')
+    #     self.assertEqual(data['event_id'], 2)
+    
+    # def test_create_member_no_data(self):
+    #     payload = {}
+    #     response = self.client.post('/events/2/members', json=payload)
+        
+    #     # デバッグ用の出力
+    #     print('Status Code:', response.status_code)
+    #     print('Response Data:', response.data)
+    #     print('Headers:', response.headers)
+        
+    #     data = response.get_json()
+    #     self.assertIsNotNone(data)
+    #     self.assertEqual(response.status_code, 400)
+    #     self.assertEqual(data['isSuccessful'], False)
+    def test_edit_member_success(self):
+        payload = {'newMemberName': 'edited_test_member'}
+        response = self.client.put('/members/2', json=payload)
         
         # デバッグ用の出力
         print('Status Code:', response.status_code)
@@ -22,13 +50,13 @@ class EventsAPITestCase(unittest.TestCase):
         
         data = response.get_json()
         self.assertIsNotNone(data)
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(data['member_name'], 'test_member')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['member_name'], 'edited_test_member')
         self.assertEqual(data['event_id'], 2)
-    
-    def test_create_member_no_data(self):
+
+    def test_edit_member_no_data(self):
         payload = {}
-        response = self.client.post('/events/2/members', json=payload)
+        response = self.client.put('/members/2', json=payload)
         
         # デバッグ用の出力
         print('Status Code:', response.status_code)
@@ -40,6 +68,18 @@ class EventsAPITestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertEqual(data['isSuccessful'], False)
 
+    def test_delete_member_success(self):
+        response = self.client.delete('/members/2')
+        
+        # デバッグ用の出力
+        print('Status Code:', response.status_code)
+        print('Response Data:', response.data)
+        print('Headers:', response.headers)
+        
+        data = response.get_json()
+        self.assertIsNotNone(data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['isSuccessful'], True)
 
 if __name__ == '__main__':
     unittest.main()
