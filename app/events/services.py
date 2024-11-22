@@ -3,7 +3,7 @@ from app import db
 from .models import Event
 
 def create_event_service(event_name: str, user_id: int) -> Event:
-    event = Event(event_name, user_id)
+    event = Event(event_name, user_id, line_group_id=None)
     db.session.add(event)
     db.session.commit()
     return event
