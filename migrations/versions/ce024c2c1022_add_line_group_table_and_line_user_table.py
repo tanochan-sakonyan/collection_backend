@@ -1,8 +1,8 @@
-"""新たにLineGroupとLineUserモデルを追加, Eventモデルにline_group_idカラムを追加
+"""add line group table and line user table
 
-Revision ID: 0b3a764910aa
+Revision ID: ce024c2c1022
 Revises: 9762351c9cf2
-Create Date: 2024-11-19 20:09:34.356646
+Create Date: 2024-11-22 19:09:04.416825
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0b3a764910aa'
+revision = 'ce024c2c1022'
 down_revision = '9762351c9cf2'
 branch_labels = None
 depends_on = None
