@@ -1,7 +1,6 @@
 from .models import LineGroup, LineUser
 from .util import add_all_line_users_in_line_group_to_event
 from app.events.models import Event
-from app.members.models import Member
 from app import db
 
 
@@ -21,6 +20,15 @@ def delete_line_group_service(line_group_id: str) -> None:
     db.session.delete(line_group)
     db.session.commit()
     return True
+
+def create_line_users_service(line_users_info:list , line_group_id: str) -> list:
+    line_users = []
+    for line_user_info in line_users_info:
+        line_user = LineUser(line_user_info['line_user_id'], line_user_info['line_user_name'], line_group_id)
+        db.session.add(line_user)
+        line_users.append(line_user)
+    db.session.commit()
+    return line_users
 
 def create_line_user_service(line_user_id: str, line_user_name: str, line_group_id: int) -> LineUser:
     line_user = LineUser(line_user_id, line_user_name, line_group_id)

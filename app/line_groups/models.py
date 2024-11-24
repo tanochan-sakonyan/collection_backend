@@ -3,7 +3,7 @@ from app import db
 class LineGroup(db.Model):
     __tablename__ = 'line_groups'
     id = db.Column(db.Integer, primary_key=True)
-    line_group_id = db.Column(db.String(64), index=True, nullable=False, )
+    line_group_id = db.Column(db.String(64), index=True, nullable=False)
     line_group_name = db.Column(db.String(64), index=True, nullable=False)
     line_users_in_group = db.relationship('LineUser', back_populates='line_group', lazy='select', cascade="all, delete  orphan")
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
