@@ -1,6 +1,7 @@
 from app.users.models import User
-from app import db
+from app import db, line_bot_api
 from .models import Event
+from .util import make_paypay_remind_message
 
 def create_event_service(event_name: str, user_id: int) -> Event:
     event = Event(event_name, user_id, line_group_id=None)
@@ -24,4 +25,20 @@ def rename_event_service(event_id: int, event_name: str) -> Event:
     event.event_name = event_name
     db.session.commit()
     return event
+
+def remind_payment_to_line_group_service(event_id: int) -> str:
+    event = Event.query.get(event_id)
+    user = event.user
+
+    if not event or not event.line_group_id:
+        return None
+    
+    if not user.paypay_url:
+        return None
+    
+    message = make_paypay_remind_message(user.paypay_url, event.members)
+    line_bot_api.push_message(event.line_group_id, message)
+
+    db.session.commit()
+    return message
 
