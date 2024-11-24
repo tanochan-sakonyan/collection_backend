@@ -1,6 +1,6 @@
 from flask import jsonify, request
 from . import events_bp
-from .services import create_event_service, get_event_service, delete_event_service, rename_event_service
+from .services import create_event_service, get_event_service, delete_event_service, rename_event_service, remind_payment_to_line_group_service
 from collections import defaultdict
 
 @events_bp.route('/', methods=['GET'])
@@ -43,3 +43,12 @@ def create_event():
 
         return jsonify(each_event_is_deleted), 200
 
+
+@events_bp.route('/events/<int:event_id>/reminders', methods=['POST'])
+def remind_payment(event_id):
+    message = remind_payment_to_line_group_service(event_id)
+
+    if not message:
+        return jsonify({"isSuccessful": False}), 400
+    
+    return jsonify({"isSuccessful": True, "message": message}), 200
