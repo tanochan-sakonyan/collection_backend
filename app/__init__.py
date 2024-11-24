@@ -4,12 +4,16 @@ from app.config import Config
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
+line_bot_api = None
 
 def create_app():
     app = Flask(__name__)
 
     # Configuration
     app.config.from_object(Config)
+
+    global line_bot_api
+    line_bot_api = app.config['LINE_CHANNEL_ACCESS_TOKEN']
 
     # モデルをインポートしてマッピングを登録
     from app.users import models as user_models

@@ -12,6 +12,7 @@ class Config:
         DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
     
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
+    LINE_CHANNEL_ACCESS_TOKEN = os.environ.get('LINE_CHANNEL_ACCESS_TOKEN')
     
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
