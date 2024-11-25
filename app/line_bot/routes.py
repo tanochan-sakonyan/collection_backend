@@ -1,8 +1,7 @@
 from flask import Blueprint, request, abort
 from app import handler
 from linebot.exceptions import InvalidSignatureError
-
-line_bot_bp = Blueprint('line_bot', __name__)
+from . import line_bot_bp
 
 @line_bot_bp.route('/line/webhook', methods=['POST'])
 def webhook():
