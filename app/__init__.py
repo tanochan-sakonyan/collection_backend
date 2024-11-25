@@ -33,6 +33,8 @@ def create_app():
     app.register_blueprint(events_bp)
     from .members import members_bp
     app.register_blueprint(members_bp)
+    from .line_bot import line_bot_bp
+    app.register_blueprint(line_bot_bp)
 
     db.init_app(app)  # db をアプリに登録
 
