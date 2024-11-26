@@ -9,7 +9,7 @@ def handle_message(event):
     logging.info("Received message event")
     logging.debug(f"Full Event Data: {json.dumps(event, default=str)}")
     send_message(event, message_text='メッセージを受信しました！')
-    members_info = get_members_info(event.source.groupId)
+    members_info = get_members_info(event.source.group_id)
     for member_info in members_info:
         send_message(event, message_text=f'{member_info["line_user_name"]}\n{member_info["line_user_id"]}')
 
@@ -25,7 +25,7 @@ def handle_join(event):
     
     send_message(event, message_text='初めまして！\n私は集金くんです！\nイベントの集金をサポートします！')
 
-    sucess = save_line_group_to_db(group_id=event.source.groupId)
+    sucess = save_line_group_to_db(group_id=event.source.group_id)
 
     if not sucess:
         send_message(event, message_text='グループ情報の登録に失敗しました。')
