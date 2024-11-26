@@ -1,6 +1,11 @@
-from linebot.models import JoinEvent
+from linebot.models import JoinEvent, TextMessage
 from app import handler
 from .services import send_message, save_line_group_to_db
+
+@handler.add(TextMessage)
+def handle_message(event):
+    print("メッセージの内容" + event.message.text)
+    send_message(event, message_text='メッセージを受信しました！')
 
 @handler.add(JoinEvent)
 def handle_join(event):
