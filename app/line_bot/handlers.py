@@ -9,7 +9,7 @@ def handle_message(event):
     logging.info("Received message event")
     logging.debug(f"Full Event Data: {json.dumps(event, default=str)}")
     send_message(event, message_text='メッセージを受信しました！')
-    members_info = get_members_info(event.source.groupId)
+    members_info = get_members_info(event["source"]["groupId"])
     for member_info in members_info:
         send_message(event, message_text=f'{member_info["line_user_name"]}\n{member_info["line_user_id"]}')
 
