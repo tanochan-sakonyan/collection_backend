@@ -1,20 +1,20 @@
 from linebot.models import JoinEvent, TextMessage, TextSendMessage, MessageEvent
 from app import handler, line_bot_api
-from .services import send_message, save_line_group_to_db
+from .services import send_message, save_line_group_to_db, get_members_info
 import logging
 import json
 
-# MessageEventのハンドラを登録
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     logging.info("Received message event")
     logging.debug(f"Full Event Data: {json.dumps(event, default=str)}")
-    # メッセージをオウム返しで返信
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )
-    # send_message(event, message_text='メッセージを受信しました！')
+    send_message(event, message_text='メッセージを受信しました！')
+    members_info = get_members_info(event.source.groupId)
+    for member_info in members_info:
+        send_message(event, message_text=f'{member_info["line_user_name"]}\n{member_info["line_user_id"]}')
+
+    send_message(event, message_text='メンバー情報を取得しました！')
+
 
 @handler.add(JoinEvent)
 def handle_join(event):
