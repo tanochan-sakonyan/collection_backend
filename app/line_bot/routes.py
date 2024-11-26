@@ -13,15 +13,14 @@ def webhook():
     signature = request.headers['X-Line-Signature']
     body = request.get_data(as_text=True)
 
-    # リクエスト情報をログ出力
-    logging.info("Received a request to /line/webhook")
-    logging.debug(f"Request body: {body}")
-    logging.debug(f"X-Line-Signature: {signature}")
+    logging.info(f"Request body: {body}")
+    logging.info(f"Signature: {signature}")
 
     try:
         #署名を検証、成功したらhandleに処理を移譲
         handler.handle(body, signature)
     except InvalidSignatureError:
-        abort(400)
+        logging.error("Invalid signature error. Check your channel secret and access token.")
+        abort(400)  # 署名エラーでリクエストを拒否
 
     return 'OK'

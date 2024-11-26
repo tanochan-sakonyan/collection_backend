@@ -6,8 +6,8 @@ import json
 
 @handler.default()
 def default_handler(event):
-    logging.warning(f"No handler for event: {event}")
-
+    logging.warning("Default handler was triggered!")
+    logging.debug(f"Event data: {json.dumps(event, default=str)}")
 
 # MessageEventのハンドラを登録
 @handler.add(MessageEvent, message=TextMessage)
