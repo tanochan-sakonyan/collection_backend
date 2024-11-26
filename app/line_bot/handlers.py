@@ -4,11 +4,6 @@ from .services import send_message, save_line_group_to_db
 import logging
 import json
 
-@handler.default
-def default_handler(event):
-    logging.warning("Default handler was triggered!")
-    logging.debug(f"Event data: {json.dumps(event, default=str)}")
-
 # MessageEventのハンドラを登録
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
