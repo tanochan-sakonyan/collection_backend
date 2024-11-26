@@ -2,14 +2,18 @@ from linebot.models import JoinEvent, TextMessage, TextSendMessage, MessageEvent
 from app import handler, line_bot_api
 from .services import send_message, save_line_group_to_db
 import logging
+import json
+
+@handler.default()
+def default_handler(event):
+    logging.warning(f"No handler for event: {event}")
+
 
 # MessageEventのハンドラを登録
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    logging.info(f"Received message: {event.message.text}")
-    logging.debug(f"Event data: {event}")
-    logging.info(f"Replying with message: {event.message.text}")
-
+    logging.info("Received message event")
+    logging.debug(f"Full Event Data: {json.dumps(event, default=str)}")
     # メッセージをオウム返しで返信
     line_bot_api.reply_message(
         event.reply_token,
