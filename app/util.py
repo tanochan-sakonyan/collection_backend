@@ -1,5 +1,12 @@
 import requests
 import os
+from flask import jsonify
+
+def add_success(dic):
+    return jsonify(dict(**{'isSuccessful':True}, **dic))
+
+def return_failure():
+    return jsonify({'isSuccessful': False})
 
 def send_message(user_id, message):
     """
