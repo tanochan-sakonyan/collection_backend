@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from . import users_bp
 from .services import create_user_service, get_user_service, delete_user_service, register_paypay_url_service
+from app.util import add_success, return_failure
 
 @users_bp.route('/', methods=['GET'])
 def index():
@@ -12,14 +13,14 @@ def create_user():
     line_token = data.get('line_token')
 
     if not data:
-        return jsonify({'message': 'Data is required'}), 400
+        return return_failure(), 400
 
     if not line_token:
-        return jsonify({'message': 'line_token is required'}), 400
+        return return_failure(), 400
 
     user = create_user_service(line_token)
-
-    return jsonify(user.to_dict()), 201
+    
+    return add_success(user.to_dict()), 201
 
 @users_bp.route('/users/<int:user_id>', methods=['GET'])
 def get_user(user_id):
