@@ -9,7 +9,7 @@ class Event(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     members = db.relationship('Member', back_populates='event', lazy='select', cascade="all, delete-orphan")
     user = db.relationship('User', back_populates='events')
-    line_group_id = db.Column(db.Integer, nullable=True)
+    line_group_id = db.Column(db.String(64), nullable=True)
 
     def __init__(self, event_name, user_id, line_group_id=None):
         self.event_name = event_name

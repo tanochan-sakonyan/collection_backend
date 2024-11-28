@@ -15,9 +15,11 @@ def create_app():
     app.config.from_object(Config)
 
     global line_bot_api
-    line_bot_api = LineBotApi(app.config['LINE_CHANNEL_ACCESS_TOKEN'])  # global handler
+    if app.config['LINE_CHANNEL_ACCESS_TOKEN']:
+        line_bot_api = LineBotApi(app.config['LINE_CHANNEL_ACCESS_TOKEN'])  # global handler
     global handler
-    handler = WebhookHandler(app.config['LINE_CHANNEL_SECRET'])  # global handler
+    if app.config['LINE_CHANNEL_SECRET']:
+        handler = WebhookHandler(app.config['LINE_CHANNEL_SECRET'])  # global handler
     
 
 

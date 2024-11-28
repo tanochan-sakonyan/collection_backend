@@ -1,15 +1,34 @@
 from app.members.models import Status
 
-def make_paypay_remind_message(paypay_url, members):
-    message = f'PayPayの支払いリマインドです。\n以下の方は支払いが完了していません。\n'
+def make_paypay_remind_message(members, payment_amount, paypay_url=None, deadline=None):
+    message = f'【未払いのご連絡】\n'
+
+    unpaid_members = [] 
 
     for member in members:
         if member.status == Status.UNPAID:
-            message += f'{member.member_name}さん\n'
+            unpaid_members.append(member.name)
 
-    message += f'以下のリンクから支払いをお願いします。\n{paypay_url}'
+    if not unpaid_members:
+        return None
+    
+    message += "さん、".join([member for member in unpaid_members]) + "さん\n先日の飲み会の参加費のお支払いがまだのようです。\n\n"
+
+    # message += f"未払金額：{payment_amount}円\n\n"
+
+    if paypay_url:
+        message += f"以下のPayPayリンクよりお支払いをお願いいたします。\n{paypay_url}\n\n"
+
+    else:
+        message += "次回お会いした際にお渡しいただくか、PayPayで支払いをお願いいたします。\n\n"
+
+    message += "ご対応をよろしくお願いいたします。"
 
     return message
+
+
+
+
 
     
 

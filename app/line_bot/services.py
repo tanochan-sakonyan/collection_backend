@@ -20,6 +20,7 @@ def get_group_name(group_id):
     }
 
     response = requests.get(url, headers=headers)
+    print(response.json())
     
     return response.json()['groupName']
 
@@ -32,8 +33,9 @@ def get_member_ids(group_id):
     }
 
     response = requests.get(url, headers=headers)
+    print(response.json())
 
-    return response.json()['memberIds']
+    return response.json()['member_ids']
 
 def get_member_profile(group_id, user_id):
     url = f'https://api.line.me/v2/bot/group/{group_id}/member/{user_id}'

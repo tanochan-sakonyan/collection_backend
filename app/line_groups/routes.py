@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from . import line_groups_bp
-from .services import create_line_group_service, get_line_group_service, delete_line_group_service, add_line_user_to_line_group_service, remove_line_user_from_line_group_service\
-    , create_event_from_line_group_service
+from .services import create_event_from_line_group_service
 
 @line_groups_bp.route('/users/<int:user_id>/events/line_groups', methods=['POST'])
 def create_event_from_line_group(user_id):

@@ -5,7 +5,7 @@ class LineGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     line_group_id = db.Column(db.String(64), index=True, nullable=False)
     line_group_name = db.Column(db.String(64), index=True, nullable=False)
-    line_users_in_group = db.relationship('LineUser', back_populates='line_group', lazy='select', cascade="all, delete  orphan")
+    line_users_in_group = db.relationship('LineUser', back_populates='line_group', lazy='select', cascade="all, delete-orphan")
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp(), nullable=False)
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp(), nullable=False)
 
