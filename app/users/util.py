@@ -8,5 +8,7 @@ def get_line_user_id(line_token):
     }
 
     response = requests.get(url, headers=headers)
+    
+    print(response.json())
 
     return response.json()['userId']
