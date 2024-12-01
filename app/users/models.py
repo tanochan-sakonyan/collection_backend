@@ -18,6 +18,7 @@ class User(db.Model):
     def to_dict(self):
         return {
             'user_id': self.user_id,
+            'line_user_id': self.line_user_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'paypay_url': self.paypay_url,
