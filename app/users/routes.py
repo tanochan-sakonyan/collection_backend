@@ -4,6 +4,7 @@ from .services import create_user_service, get_user_service, delete_user_service
 from app.util import add_success, return_failure
 from app import db
 from app.events.models import Event
+from app.members.models import Member
 
 @users_bp.route('/', methods=['GET'])
 def index():
@@ -25,9 +26,18 @@ def create_user():
         if not user.events or len(user.events) == 0:
             default_event = Event(
                 event_name="一次会",
-                members=[]
+                user_id=user.user_id
             )
+            
+            default_member = Member(
+                member_name="デフォルト参加者",
+                event_id=default_event.event_id
+            )
+            default_event.members.append(default_member)
+
             user.events.append(default_event)
+
+            db.session.add(default_event)
             db.session.commit()
 
         return add_success(user.to_dict()), 201
