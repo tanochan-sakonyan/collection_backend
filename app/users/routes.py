@@ -1,7 +1,9 @@
+from asyncio import Event
 from flask import jsonify, request
 from . import users_bp
 from .services import create_user_service, get_user_service, delete_user_service, register_paypay_url_service
 from app.util import add_success, return_failure
+from app import db
 
 @users_bp.route('/', methods=['GET'])
 def index():
@@ -20,6 +22,14 @@ def create_user():
 
     try:
         user = create_user_service(line_token)
+        if not user.events or len(user.events) == 0:
+            default_event = Event(
+                event_name="一次会",
+                members=[]
+            )
+            user.events.append(default_event)
+            db.session.commit()
+
         return add_success(user.to_dict()), 201
     except Exception as e:
         # ログに詳細を記録
