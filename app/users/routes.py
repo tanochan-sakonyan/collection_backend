@@ -1,9 +1,9 @@
-from asyncio import Event
 from flask import jsonify, request
 from . import users_bp
 from .services import create_user_service, get_user_service, delete_user_service, register_paypay_url_service
 from app.util import add_success, return_failure
 from app import db
+from app.events.models import Event
 
 @users_bp.route('/', methods=['GET'])
 def index():
