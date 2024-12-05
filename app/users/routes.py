@@ -30,7 +30,7 @@ def create_user():
             )
             
             default_member = Member(
-                member_name="デフォルト参加者",
+                member_name="Aさん",
                 event_id=default_event.event_id
             )
             default_event.members.append(default_member)
