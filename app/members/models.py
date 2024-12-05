@@ -2,9 +2,9 @@ from app import db
 from enum import Enum
 
 class Status(Enum):
-    UNPAID = 0
     PAID = 1
-    ABSENCE = 2
+    UNPAID = 2
+    ABSENCE = 3
 
 class Member(db.Model):
     __tablename__ = 'members'
