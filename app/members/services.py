@@ -27,7 +27,7 @@ def edit_member_name_service(member_id: int, member_name: str) -> Member:
 
 def change_member_status_service(member_id: int, status: int) -> Member:
     #状態を表す数は0から2のみ
-    if status not in [0, 1, 2]:
+    if status not in [1, 2, 3]:
         return None
     
     member = Member.query.get(member_id)
