@@ -1,8 +1,8 @@
-"""first migration
+"""Initial migration with updated Status Enum
 
-Revision ID: a7b47158e0a0
+Revision ID: 9f121debca01
 Revises: 
-Create Date: 2024-12-01 13:20:02.120857
+Create Date: 2024-12-06 18:23:21.211382
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a7b47158e0a0'
+revision = '9f121debca01'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -67,7 +67,7 @@ def upgrade():
     sa.Column('member_id', sa.Integer(), nullable=False),
     sa.Column('member_name', sa.String(length=64), nullable=False),
     sa.Column('line_user_id', sa.String(length=64), nullable=True),
-    sa.Column('status', sa.Enum('UNPAID', 'PAID', 'ABSENCE', name='status'), nullable=False),
+    sa.Column('status', sa.Enum('PAID', 'UNPAID', 'ABSENCE', name='status'), nullable=False),
     sa.Column('event_id', sa.Integer(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
