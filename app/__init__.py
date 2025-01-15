@@ -1,10 +1,10 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from google.cloud import firestore
 from app.config import Config
 from flask_migrate import Migrate
 from linebot import LineBotApi, WebhookHandler
 
-db = SQLAlchemy()
+db = firestore.Client()
 line_bot_api = None
 handler = None
 
@@ -23,24 +23,8 @@ def create_app():
     
 
 
-    # モデルをインポートしてマッピングを登録
-    from app.users import models as user_models
-    from app.events import models as event_models
-    from app.members import models as member_models
-
-    # Register Blueprints
-    from .users import users_bp
-    app.register_blueprint(users_bp)
-    from .events import events_bp
-    app.register_blueprint(events_bp)
-    from .members import members_bp
-    app.register_blueprint(members_bp)
-    from .line_bot import line_bot_bp
-    app.register_blueprint(line_bot_bp)
-
-    db.init_app(app)  # db をアプリに登録
-
-    migrate = Migrate(app, db)  # migrate をアプリに登録
+    from app.main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
     
 
     return app

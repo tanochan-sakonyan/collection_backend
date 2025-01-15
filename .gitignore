@@ -1,5 +1,7 @@
 .venv
+venv
 .env
+shukinkun-446904-90b5f1e36bdb.json
 __pycache__
 instance
 tests/
